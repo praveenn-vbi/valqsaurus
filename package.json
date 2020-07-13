@@ -3,7 +3,9 @@
     "version": "0.0.1",
     "private": true,
     "scripts": {
-        "start": "docusaurus start",
+        "start": "node pre-build.js && docusaurus start",
+        "start2": "cross-env BUILD_TYPE=COLLABORATE yarn start",
+        "start3": "cross-env BUILD_TYPE=CERTIFIED yarn start",
         "build": "docusaurus build",
         "swizzle": "docusaurus swizzle",
         "deploy": "docusaurus deploy"
@@ -34,6 +36,7 @@
     },
     "devDependencies": {
         "cheerio": "^1.0.0-rc.3",
+        "cross-env": "^7.0.2",
         "fs-extra": "^8.1.0"
     }
 }
