@@ -12,16 +12,17 @@ checkAndRemovePath = (obj) => {
                 Object.values(filePath).forEach(checkAndRemovePath)
                 return;
             }
+            filePath = path.join(basePath, `${filePath}.mdx`);
             if (!fs.existsSync(filePath)) {
+                console.log(`Warning: ${filePath} file node found`)
                 return;
             }
-            filePath = path.join(basePath, `${filePath}.mdx`);
             let fileContent = fs.readFileSync(filePath);
-            if ((fileContent.indexOf("#COLLABORATE") !== -1 && BUILD_TYPE !== "COLLABORATE") || (fileContent.indexOf("#CERTIFIED") && BUILD_TYPE !== "CERTIFIED")) {
+            if ((fileContent.indexOf("#COLLABORATE") !== -1 && BUILD_TYPE !== "COLLABORATE") || (fileContent.indexOf("#CERTIFIED") !== -1 && BUILD_TYPE !== "CERTIFIED")) {
                 obj.splice(index, 1);
-                console.log(filePath)
-                console.log("Hererere")
-                fs.writeFileSync(filePath, "");
+                if (process.env.NODE_ENV === "production") {
+                    fs.writeFileSync(filePath, "");
+                }
             }
         })
     }
@@ -31,4 +32,4 @@ checkAndRemovePath = (obj) => {
 }
 checkAndRemovePath(sideBarConfig);
 // console.log(sideBarConfig)
-fs.writeFileSync('./sidebars.js', `module.exports = ${JSON.stringify(sideBarConfig, null, 2)}`)
+fs.writeFileSync('./sidebars-gen.js', `module.exports = ${JSON.stringify(sideBarConfig, null, 2)}`)
