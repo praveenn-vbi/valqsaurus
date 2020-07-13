@@ -8,11 +8,17 @@ fs.writeFileSync("./build-config.js", `export const BUILD_TYPE = "${BUILD_TYPE}"
 checkAndRemovePath = (obj) => {
     if (Array.isArray(obj)) {
         obj.forEach((filePath, index) => {
+            if (typeof obj !== "string") {
+                Object.values(obj).forEach(checkAndRemovePath)
+                return;
+            }
             filePath = path.join(basePath, `${filePath}.mdx`);
             let fileContent = fs.readFileSync(filePath);
             fileContent = fileContent.toString();
-            if ((fileContent.indexOf("#COLLABORATE") && BUILD_TYPE !== "COLLABORATE") || (fileContent.indexOf("#CERTIFIED") && BUILD_TYPE !== "CERTIFIED")) {
+            if ((fileContent.indexOf("#COLLABORATE") !== -1 && BUILD_TYPE !== "COLLABORATE") !== -1 || (fileContent.indexOf("#CERTIFIED") && BUILD_TYPE !== "CERTIFIED")) {
                 obj.splice(index, 1);
+                console.log(obj)
+                console.log("Hererere")
                 fs.writeFileSync(filePath, "");
             }
         })
@@ -22,4 +28,5 @@ checkAndRemovePath = (obj) => {
     }
 }
 checkAndRemovePath(sideBarConfig);
+// console.log(sideBarConfig)
 fs.writeFileSync('./sidebars.js', `module.exports = ${JSON.stringify(sideBarConfig, null, 2)}`)
