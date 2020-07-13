@@ -14,8 +14,7 @@ checkAndRemovePath = (obj) => {
             }
             filePath = path.join(basePath, `${filePath}.mdx`);
             let fileContent = fs.readFileSync(filePath);
-            fileContent = fileContent.toString();
-            if ((fileContent.indexOf("#COLLABORATE") !== -1 && BUILD_TYPE !== "COLLABORATE") !== -1 || (fileContent.indexOf("#CERTIFIED") && BUILD_TYPE !== "CERTIFIED")) {
+            if ((fileContent.indexOf("#COLLABORATE") !== -1 && BUILD_TYPE !== "COLLABORATE") || (fileContent.indexOf("#CERTIFIED") && BUILD_TYPE !== "CERTIFIED")) {
                 obj.splice(index, 1);
                 console.log(filePath)
                 console.log("Hererere")
