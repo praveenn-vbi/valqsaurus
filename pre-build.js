@@ -8,8 +8,8 @@ fs.writeFileSync("./build-config.js", `export const BUILD_TYPE = "${BUILD_TYPE}"
 checkAndRemovePath = (obj) => {
     if (Array.isArray(obj)) {
         obj.forEach((filePath, index) => {
-            if (typeof obj !== "string") {
-                Object.values(obj).forEach(checkAndRemovePath)
+            if (typeof filePath !== "string") {
+                Object.values(filePath).forEach(checkAndRemovePath)
                 return;
             }
             filePath = path.join(basePath, `${filePath}.mdx`);
@@ -17,7 +17,7 @@ checkAndRemovePath = (obj) => {
             fileContent = fileContent.toString();
             if ((fileContent.indexOf("#COLLABORATE") !== -1 && BUILD_TYPE !== "COLLABORATE") !== -1 || (fileContent.indexOf("#CERTIFIED") && BUILD_TYPE !== "CERTIFIED")) {
                 obj.splice(index, 1);
-                console.log(obj)
+                console.log(filePath)
                 console.log("Hererere")
                 fs.writeFileSync(filePath, "");
             }
