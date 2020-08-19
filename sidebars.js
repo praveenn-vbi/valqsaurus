@@ -111,6 +111,12 @@ module.exports = {
         ],
 
     },
+    installationGuide: {
+        "ValQ 1.8": [
+            "valq1.8/private-tenant-install-guide"
+        ]
+
+    },
     functionSideBar: {
         "Logical Functions": [
             "references/formulas/if",
